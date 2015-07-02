@@ -23,4 +23,4 @@ _**Boolean** - Enable animation_</td></tr><tr><td>lang</td><td>"pt"</td><td>**St
 _**String** - Language_</td></tr><tr><td>unit</td><td>"c"</td><td>**Char** - Unidade meteorológica.  
 _**Char** - Weather unit_
 **C**elcius, **F**ahrenheit, **K**elvin
-</td></tr></tbody></table>_
+</td></tr></tbody></table>
