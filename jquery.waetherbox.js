@@ -1,25 +1,35 @@
 /*
- Plugin Tabs
- Data: 28/04/2013
+ Weather Box
+ Data: 02/07/2015
  Autor: Renalcio Carlos
  Email: r.carlos@live.com
  Versão: 1.0
- Opções:
- -- funcao:
- Tabula um conteudo com XHTML ou HTML
  */
 (function($){
     $.fn.weatherbox = function(options){
         // configurações padrão
         var config = {
-            city: "Sumaré - SP",
+            city: "",
             animate: true,
-            lang: "pt"
+            lang: "pt",
+            unit: "c",
+            geolocation: true,
+            lat: 0,
+            lon: 0
         };
         options = $.extend(config,options);
         return this.each(function(){
 
             $obj = $(this);
+
+            if (navigator.geolocation && options.geolocation == true) {
+                navigator.geolocation.getCurrentPosition(function(position){
+                    options.geolocation = false;
+                    options.lat = position.coords.latitude;
+                    options.lon = position.coords.longitude;
+                    $obj.weatherbox(options);
+                });
+            }
 
             var today_day = '';
             var icon_type_today = icon_type_1 = icon_type_2 = icon_type_3 = icon_type_4 = "partly-cloudy-day";
@@ -49,6 +59,14 @@
                         ],
                         "search": "Search..."
                     }
+                },
+                units = {
+                    "c" : "&units=metric",
+                    "C" : "&units=metric",
+                    "k" : "",
+                    "K" : "",
+                    "f" : "&units=imperial",
+                    "F" : "&units=imperial"
                 },
                 numero = [
                     "",
@@ -90,7 +108,11 @@
                     "wind",
                     "fog"
                 ],
-                ApiUrl = "http://api.openweathermap.org/data/2.5/weather?q="+options.city+"&APPID=6e01f258d5b031c3140eb7b18c4fb928&units=metric&lang="+options.lang;
+                ApiUrl = "http://api.openweathermap.org/data/2.5/weather?q="+options.city+"&APPID=6e01f258d5b031c3140eb7b18c4fb928"+units[options.unit]+"&lang="+options.lang;
+
+            if(options.lat != 0 && options.lon != 0){
+                ApiUrl = "http://api.openweathermap.org/data/2.5/weather?lat="+options.lat+"&lon="+options.lon+"&APPID=6e01f258d5b031c3140eb7b18c4fb928"+units[options.unit]+"&lang="+options.lang;
+            }
 
             var dia = langs["en"]["day"],
                 search = langs["en"]["search"];
@@ -148,7 +170,7 @@
                 //Min Max
                 $(".today-temp").html(data.main.temp_min.toMoney(0, "", "") + '° / ' + data.main.temp_max.toMoney(0, "", "") + '°');
                 //Forecast
-                var APIForecast = "http://api.openweathermap.org/data/2.5/forecast/daily?lat="+data.coord.lat+"&lon="+data.coord.lon+"&cnt=10&mode=json&APPID=6e01f258d5b031c3140eb7b18c4fb928&units=metric&lang="+options.lang;
+                var APIForecast = "http://api.openweathermap.org/data/2.5/forecast/daily?lat="+data.coord.lat+"&lon="+data.coord.lon+"&cnt=10&mode=json&APPID=6e01f258d5b031c3140eb7b18c4fb928"+units[options.unit]+"&lang="+options.lang;
                 $.ajax({
                     type: "get",
                     enctype: 'multipart/form-data',
