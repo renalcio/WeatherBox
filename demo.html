@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head lang="pt">
+    <meta charset="UTF-8">
+    <title>Weather Box Demonstration</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+    <!-- Font Awesome Icons -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+    <link rel="stylesheet" href="demo.css">
+    <link rel="stylesheet" href="jquery.weatherbox.css">
+
+    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="skycons.min.js"></script>
+    <script src="jquery.waetherbox.js"></script>
+    <script>
+        $(function(){
+            $('.widget-weather').weatherbox();
+        });
+    </script>
+</head>
+<body>
+<div class="panel widget-weather"></div>
+</body>
+</html>
